@@ -109,6 +109,7 @@ public class Node implements DHT {
 
 		FingerTable.Entry e=fingerTable.getNext(bkey);
 		
+		
 		if(e==null || fingerTable.table[0].succ.compareTo(bkey)>=0 || fingerTable.table[0].succIP.equals(ip))
 			fingerTable.Join(bkey,jip);
 		else{

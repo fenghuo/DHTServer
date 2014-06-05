@@ -58,7 +58,7 @@ public class FingerTable {
 		Entry entry = null;
 		for (int i = 0; i < table.length; i++) {
 			Entry e = table[i];
-			if ((e.succ.compareTo(index) < 0 && (e.succ.compareTo(entry.id) > 0)))
+			if ((e.succ.compareTo(index) < 0 && ( entry==null || e.succ.compareTo(entry.id) > 0)))
 				entry = e;
 		}
 		return entry;
