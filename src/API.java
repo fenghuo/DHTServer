@@ -131,6 +131,8 @@ public class API {
 		private void putd(String key) {
 
 			String res = node.put(new BigInteger(key.trim()));
+			
+			System.out.println("Put :"+((res==null)?"Here":res));
 
 			if (res != null)
 				Util.getResponse(res, new String[][] { { "putd", key } });

@@ -55,10 +55,10 @@ public class FingerTable {
 	}
 
 	public Entry getNext(BigInteger index) {
-		Entry entry = new Entry(id, id, ip);
+		Entry entry = null;
 		for (int i = 0; i < table.length; i++) {
 			Entry e = table[i];
-			if (e.succ.compareTo(index) < 0 && (e.succ.compareTo(entry.id) > 0))
+			if (entry==null || (e.succ.compareTo(index) < 0 && (e.succ.compareTo(entry.id) > 0)))
 				entry = e;
 		}
 		return entry;
