@@ -81,8 +81,6 @@ public class Node implements DHT {
 		
 		System.out.println(res+":"+ip);
 		
-		System.out.println(res.equals(ip));
-		
 		return res;
 	}
 
