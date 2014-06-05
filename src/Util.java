@@ -30,6 +30,7 @@ public class Util {
 	public static String File = "test";
 	public static String FIP = "ip";
 	public static String SIP = "127.0.0.1";
+	public static String ROOTIP="54.183.30.210";
 
 	public static Vector<BigInteger> loadMap() {
 		Vector<BigInteger> map = new Vector<BigInteger>();

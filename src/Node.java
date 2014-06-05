@@ -40,6 +40,9 @@ public class Node implements DHT {
 
 		BigInteger r = BigInteger.ZERO;
 
+		if(iip.equals(Util.ROOTIP))
+			return r;
+		
 		String[] s = iip.split("[.]");
 		for (int i = s.length - 1; i >= 0; i--)
 			r = r.multiply(BigInteger.valueOf(256)).add(
