@@ -19,9 +19,14 @@ public class API {
 
 		if (args.length > 1) {
 			node = new Node(args[0], Util.File);
-			node.init(args[0]);
-			Util.getResponse(args[0], new String[][] { { "join", node.ip } });
-		} else {
+			node.init(args[1]);
+			Util.getResponse(args[1], new String[][] { { "join", node.ip } });
+		} 
+		else if(args.length>0){
+			node = new Node(args[0], Util.File);
+			node.init();
+		}
+		else {
 			node = new Node(Util.SIP, Util.File);
 			node.init();
 		}
