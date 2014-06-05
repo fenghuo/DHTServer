@@ -29,18 +29,11 @@ public class Node implements DHT {
 		System.out.println("System Start 1: "+ip);
 		
 		fingerTable.Init(jip);
+		
 	}
 	
 	public void copy(String pip){
-		
-		BigInteger bkey=getID(pip).add(BigInteger.ONE);
-		
-		String res="";
-		{
-			while(res!=null){
-				
-			}
-		}
+		new Sync(pip).start();
 	}
 
 	public static BigInteger getID(String iip) {
@@ -158,16 +151,37 @@ public class Node implements DHT {
 		return r;
 	}
 	
-	public static class Sync extends Thread{
+	public class Sync extends Thread{
 		
-		String ip="";
+		String sip="";
 		
 		public Sync(String ip){
-			this.ip=ip;
+			this.sip=ip;
 		}
 		
 		@Override
 		public void run(){
+			BigInteger next=id;
+			BigInteger b=getID(sip);
+			
+			while(true){
+				String res=Util.getResponse(sip, new String[][]{{"getd",next.toString()}});
+				next=new BigInteger(res.trim());
+				if(next.compareTo(b)>=0){
+					if (Collections.binarySearch(map, b) < 0) {
+						map.add(b);
+						Collections.sort(map);
+					}
+				}
+				else
+					break;
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			
 		}
 	}

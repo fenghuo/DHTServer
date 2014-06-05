@@ -22,13 +22,24 @@ public class FingerTable {
 
 	public void Init(String jip) {
 
-		for (int i = 0; i < Util.SIZE; i++) {
-			table[i] = new Entry(BigInteger.valueOf(2).pow(i).add(id), id, ip);
+		String[]res=Util.getResponse(jip,new String[][]{{"fingertable"}}).split(",");
+		
+		for (int i=Util.SIZE-1; i>=0;i--) {
+			
+			String sip=res[i];
+			BigInteger sid=Node.getID(sip);
+			
+			if(sid.compareTo(id)>0)
+				table[i]=new Entry(BigInteger.valueOf(2).pow(i).add(id),sid,sip);
+			else{
+				if(i<Util.SIZE-1)
+					table[i]=new Entry(BigInteger.valueOf(2).pow(i).add(id),table[i+1].succ,table[i+1].succIP);
+				else
+					table[i]=new Entry(BigInteger.valueOf(2).pow(i).add(id),id,ip);
+			}
 		}
 
 		System.out.println("Initialization Finished~");
-
-		//new Sync(jip).start();
 
 		return;
 

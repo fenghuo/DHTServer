@@ -18,16 +18,20 @@ public class API {
 	public static void main(String[] args) throws Exception {
 
 		if (args.length > 1) {
-			node = new Node(args[0], Util.File);			
+			node = new Node(args[0], Util.File);
 			node.init(args[1]);
+
+			String res = Util.getResponse(args[1], new String[][] { { "join",
+					node.ip } });
+
+			System.out.println("Previous node --------------- " + res);
+
+			node.copy(res.trim());
 			
-			Util.getResponse(args[1], new String[][] { { "join", node.ip } });
-		} 
-		else if(args.length>0){
+		} else if (args.length > 0) {
 			node = new Node(args[0], Util.File);
 			node.init();
-		}
-		else {
+		} else {
 			node = new Node(Util.SIP, Util.File);
 			node.init();
 		}
@@ -79,6 +83,8 @@ public class API {
 					response += join(key);
 				else if (type.equals("dump"))
 					response += dump();
+				else if (type.equals("fingertable"))
+					response += fingertable();
 				else if (type.equals("test"))
 					response += "test";
 			}
@@ -103,18 +109,19 @@ public class API {
 			String res = node.put(key);
 
 			if (res != null)
-				//ip
+				// ip
 				Util.getResponse(res, new String[][] { { "put", key } });
 			return;
 		}
-		
+
 		private String getd(String key) {
 
 			String res = node.get(new BigInteger(key.trim()));
 
 			if (res.contains("."))
 				// ip
-				return Util.getResponse(res, new String[][] { { "getd", key } });
+				return Util
+						.getResponse(res, new String[][] { { "getd", key } });
 
 			else
 				// key
@@ -122,13 +129,13 @@ public class API {
 		}
 
 		private void putd(String key) {
-			
+
 			String res = node.put(new BigInteger(key.trim()));
 
 			if (res != null)
 				Util.getResponse(res, new String[][] { { "putd", key } });
 			return;
-			
+
 		}
 
 		private String join(String key) {
@@ -149,24 +156,33 @@ public class API {
 			String gip = node.fingerTable.getNext(Node.BinaryToInt(key)).succIP;
 
 			if (!gip.equals(node.ip))
-				//ip
+				// ip
 				return Util.getResponse(gip,
 						new String[][] { { "getip", key } });
 			return gip;
 		}
-		
 
 		private String getipd(String key) {
 
 			String gip = node.fingerTable.getNext(new BigInteger(key)).succIP;
 
 			if (!gip.equals(node.ip))
-				//ip
+				// ip
 				return Util.getResponse(gip,
 						new String[][] { { "getip", key } });
 			return gip;
 		}
 
+		private String fingertable() {
+			
+			String res="";
+			
+			for(int i=0;i<node.fingerTable.table.length;i++)
+				res+=node.fingerTable.table[i].succIP+",";
+			
+			return res;
+		}
+		
 		private String dump() {
 			String res = "";
 
@@ -189,10 +205,10 @@ public class API {
 		// TODO Auto-generated method stub
 
 		String res = "";
-		//res = node.join("127.0.0.2");
-		
-		//res=Util.getResponse("127.0.0.1", new String[][]{{"getd","1111"}});
-		
+		// res = node.join("127.0.0.2");
+
+		// res=Util.getResponse("127.0.0.1", new String[][]{{"getd","1111"}});
+
 		System.out.println(res);
 	}
 
