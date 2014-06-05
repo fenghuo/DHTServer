@@ -93,12 +93,12 @@ public class Node implements DHT {
 	
 	public String get(BigInteger bkey){
 
-		String nip = fingerTable.getNext(bkey).succIP;
+		FingerTable.Entry e=fingerTable.getNext(bkey);
 
-		if (nip.equals(ip))
+		if (e==null)
 			return findCoin(bkey).toString();
 		else
-			return nip;
+			return e.succIP;
 	}
 	
 	public String join(String jip){
@@ -106,12 +106,14 @@ public class Node implements DHT {
 		BigInteger bkey=getID(jip);
 		
 		String res=null;
+
+		FingerTable.Entry e=fingerTable.getNext(bkey);
 		
-		if(fingerTable.table[0].succ.compareTo(bkey)>=0 || fingerTable.table[0].succIP.equals(ip))
+		if(e==null || fingerTable.table[0].succ.compareTo(bkey)>=0 || fingerTable.table[0].succIP.equals(ip))
 			fingerTable.Join(bkey,jip);
-		else
-			res=fingerTable.getNext(bkey).succIP;
-		
+		else{
+			res=e.succIP;
+		}
 		return res;
 	}
 
