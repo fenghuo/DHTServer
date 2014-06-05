@@ -68,16 +68,16 @@ public class Node implements DHT {
 
 		String res = null;
 
-		String nip = fingerTable.getNext(bkey).succIP;
-
-		if (nip.equals(ip)) {
+		FingerTable.Entry e=fingerTable.getNext(bkey);
+		
+		if(e==null){
 			if (Collections.binarySearch(map, bkey) < 0) {
 				map.add(bkey);
 				Collections.sort(map);
 				Util.saveMap(map);
 			}
 		} else 
-			res=nip;
+			res=e.succIP;
 		
 		return res;
 	}

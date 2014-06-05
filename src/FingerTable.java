@@ -29,7 +29,7 @@ public class FingerTable {
 			String sip=res[i];
 			BigInteger sid=Node.getID(sip);
 			
-			if(sid.compareTo(id)>0)
+			if(sid.compareTo(BigInteger.ZERO)==0 || sid.compareTo(id)>0)
 				table[i]=new Entry(BigInteger.valueOf(2).pow(i).add(id),sid,sip);
 			else{
 				if(i<Util.SIZE-1)
@@ -58,7 +58,7 @@ public class FingerTable {
 		Entry entry = null;
 		for (int i = 0; i < table.length; i++) {
 			Entry e = table[i];
-			if (entry==null || (e.succ.compareTo(index) < 0 && (e.succ.compareTo(entry.id) > 0)))
+			if ((e.succ.compareTo(index) < 0 && (e.succ.compareTo(entry.id) > 0)))
 				entry = e;
 		}
 		return entry;
