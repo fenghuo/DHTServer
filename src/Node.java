@@ -70,7 +70,7 @@ public class Node implements DHT {
 
 		FingerTable.Entry e=fingerTable.getNext(bkey);
 		
-		if(e==null){
+		if(e==null || e.succIP.equals(ip)){
 			if (Collections.binarySearch(map, bkey) < 0) {
 				map.add(bkey);
 				Collections.sort(map);
@@ -95,7 +95,7 @@ public class Node implements DHT {
 
 		FingerTable.Entry e=fingerTable.getNext(bkey);
 
-		if (e==null)
+		if (e==null || e.succIP.equals(ip))
 			return findCoin(bkey).toString();
 		else
 			return e.succIP;
