@@ -18,8 +18,9 @@ public class API {
 	public static void main(String[] args) throws Exception {
 
 		if (args.length > 1) {
-			node = new Node(args[0], Util.File);
+			node = new Node(args[0], Util.File);			
 			node.init(args[1]);
+			
 			Util.getResponse(args[1], new String[][] { { "join", node.ip } });
 		} 
 		else if(args.length>0){
@@ -30,7 +31,7 @@ public class API {
 			node = new Node(Util.SIP, Util.File);
 			node.init();
 		}
-		 test();
+		test();
 
 		HttpServer server = HttpServer.create(new InetSocketAddress(Util.PORT),
 				0);

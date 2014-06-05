@@ -111,7 +111,7 @@ public class Node implements DHT {
 		
 		String res=null;
 		
-		if(fingerTable.table[0].id.compareTo(bkey)>=0 || fingerTable.table[0].succIP.equals(ip))
+		if(fingerTable.table[0].succ.compareTo(bkey)>=0 || fingerTable.table[0].succIP.equals(ip))
 			fingerTable.Join(bkey,jip);
 		else
 			res=fingerTable.getNext(bkey).succIP;
@@ -156,6 +156,20 @@ public class Node implements DHT {
 		}
 
 		return r;
+	}
+	
+	public static class Sync extends Thread{
+		
+		String ip="";
+		
+		public Sync(String ip){
+			this.ip=ip;
+		}
+		
+		@Override
+		public void run(){
+			
+		}
 	}
 
 }
