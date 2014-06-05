@@ -28,6 +28,7 @@ public class Util {
 	public static int SIZE=maxSize*maxSize;
 	public static BigInteger Max=BigInteger.valueOf(2).pow(SIZE);
 	public static String File="test";
+	public static String FIP="ip";
 	public static String SIP="127.0.0.1";
 	
 	public static Vector<BigInteger> loadMap() {

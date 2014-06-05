@@ -55,6 +55,7 @@
     </target>
     <target name="API">
         <java classname="API" failonerror="true" fork="yes">
+            <arg line="169.231.49.107"/>
             <classpath refid="DHTServer.classpath"/>
         </java>
     </target>
