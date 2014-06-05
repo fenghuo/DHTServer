@@ -190,7 +190,7 @@ public class API {
 		String res = "";
 		//res = node.join("127.0.0.2");
 		
-		res=Util.getResponse("127.0.0.1", new String[][]{{"getd","1111"}});
+		//res=Util.getResponse("127.0.0.1", new String[][]{{"getd","1111"}});
 		
 		System.out.println(res);
 	}

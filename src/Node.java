@@ -19,10 +19,14 @@ public class Node implements DHT {
 	}
 
 	public void init() {
+		
+		System.out.println("System Start 0: "+ip);
+		
 		fingerTable.Init();
 	}
 	
 	public void init(String jip) {
+		System.out.println("System Start 1: "+ip);
 		
 		fingerTable.Init(jip);
 	}
