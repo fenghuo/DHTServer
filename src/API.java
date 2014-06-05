@@ -26,7 +26,7 @@ public class API {
 
 			System.out.println("Previous node --------------- " + res);
 
-			node.copy(res.trim());
+			//node.copy(res.trim());
 			
 		} else if (args.length > 0) {
 			node = new Node(args[0], Util.File);
