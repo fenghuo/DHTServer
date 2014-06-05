@@ -98,7 +98,7 @@ public class Node implements DHT {
 		if (nip.equals(ip))
 			return findCoin(bkey).toString();
 		else
-			return ip;
+			return nip;
 	}
 	
 	public String join(String jip){

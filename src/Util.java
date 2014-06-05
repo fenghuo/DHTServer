@@ -66,7 +66,7 @@ public class Util {
 	}
 	public static String getResponse(String url){
 		
-		System.out.println("Sending request: "+url);
+		System.out.println(API.node.ip+"\tSending request: "+url);
 		
         StringBuilder response = new StringBuilder();
 		try {
