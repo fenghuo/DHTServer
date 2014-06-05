@@ -27,14 +27,13 @@ public class Util {
 	public static int maxSize=101;
 	public static int SIZE=maxSize*maxSize;
 	public static BigInteger Max=BigInteger.valueOf(2).pow(SIZE);
-	public static String File="";
+	public static String File="test";
 	public static String SIP="127.0.0.1";
 	
-	public static Vector<BigInteger> loadMap(String file) {
+	public static Vector<BigInteger> loadMap() {
 		Vector<BigInteger> map = new Vector<BigInteger>();
-		File=file;
 
-		Path path = Paths.get(file);
+		Path path = Paths.get(File);
 		try (BufferedReader reader = Files.newBufferedReader(path, ENCODING)) {
 			String line = null;
 			while ((line = reader.readLine()) != null) {
@@ -58,9 +57,9 @@ public class Util {
 	    }
 	}
 
-	public static String getResponse(String url,String[][]params){
+	public static String getResponse(String ip,String[][]params){
 		
-		String req=url+":"+PORT+"?";
+		String req="http://"+ip+":"+PORT+"?";
 		for(String[]p:params)
 			req+=p[0]+((p.length>1)?"="+p[1]:"")+"&";
 		return getResponse(req);

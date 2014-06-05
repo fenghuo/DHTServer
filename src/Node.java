@@ -13,7 +13,7 @@ public class Node implements DHT {
 
 	public Node(String ip, String file) {
 		this.ip = ip;
-		map = Util.loadMap(file);
+		map = Util.loadMap();
 		id = getID(ip);
 		fingerTable = new FingerTable(id, ip);
 	}
@@ -23,7 +23,20 @@ public class Node implements DHT {
 	}
 	
 	public void init(String jip) {
+		
 		fingerTable.Init(jip);
+	}
+	
+	public void copy(String pip){
+		
+		BigInteger bkey=getID(pip).add(BigInteger.ONE);
+		
+		String res="";
+		{
+			while(res!=null){
+				
+			}
+		}
 	}
 
 	public static BigInteger getID(String iip) {
@@ -45,7 +58,13 @@ public class Node implements DHT {
 	@Override
 	public String put(String key) {
 
-		BigInteger bkey = toInt(key);
+		BigInteger bkey = BinaryToInt(key);
+
+		return put(bkey);
+		
+	}
+	
+	public String put(BigInteger bkey){
 
 		String res = null;
 
@@ -53,7 +72,7 @@ public class Node implements DHT {
 
 		if (nip.equals(ip)) {
 			if (Collections.binarySearch(map, bkey) < 0) {
-				map.add(toInt(key));
+				map.add(bkey);
 				Collections.sort(map);
 				Util.saveMap(map);
 			}
@@ -66,7 +85,13 @@ public class Node implements DHT {
 	@Override
 	public String get(String key) {
 
-		BigInteger bkey = toInt(key);
+		BigInteger bkey = BinaryToInt(key);
+
+		return get(bkey);
+		
+	}
+	
+	public String get(BigInteger bkey){
 
 		String nip = fingerTable.getNext(bkey).succIP;
 
@@ -108,7 +133,7 @@ public class Node implements DHT {
 		return r;
 	}
 
-	public static BigInteger toInt(String key) {
+	public static BigInteger BinaryToInt(String key) {
 		BigInteger r = BigInteger.ZERO;
 
 		for (int i = 0; i < key.length(); i++) {

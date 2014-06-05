@@ -1,15 +1,8 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.net.InetSocketAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -24,15 +17,18 @@ public class API {
 
 	public static void main(String[] args) throws Exception {
 
-		node = new Node("127.0.0.1", "test");
-		if(args.length>0)
+		if (args.length > 1) {
+			node = new Node(args[0], Util.File);
 			node.init(args[0]);
-		else
+			Util.getResponse(args[0], new String[][] { { "join", node.ip } });
+		} else {
+			node = new Node(Util.SIP, Util.File);
 			node.init();
+		}
+		 test();
 
-		//test();
-
-		HttpServer server = HttpServer.create(new InetSocketAddress(Util.PORT), 0);
+		HttpServer server = HttpServer.create(new InetSocketAddress(Util.PORT),
+				0);
 		server.createContext("/", new MyHandler());
 		server.setExecutor(null); // creates a default executor
 		server.start();
@@ -63,10 +59,16 @@ public class API {
 				String key = temp.length > 1 ? temp[1] : "";
 				if (type.equals("get"))
 					response += get(key);
+				if (type.equals("getd"))
+					response += getd(key);
 				else if (type.equals("put"))
 					put(key);
+				else if (type.equals("putd"))
+					putd(key);
 				if (type.equals("getip"))
 					response += getip(key);
+				if (type.equals("getipd"))
+					response += getipd(key);
 				if (type.equals("join"))
 					response += join(key);
 				else if (type.equals("dump"))
@@ -78,42 +80,85 @@ public class API {
 			return response;
 		}
 
+		private String get(String key) {
+
+			String res = node.get(key);
+
+			if (res.contains("."))
+				// ip
+				return Util.getResponse(res, new String[][] { { "get", key } });
+
+			else
+				// key
+				return res;
+		}
+
+		private void put(String key) {
+			String res = node.put(key);
+
+			if (res != null)
+				//ip
+				Util.getResponse(res, new String[][] { { "put", key } });
+			return;
+		}
+		
+		private String getd(String key) {
+
+			String res = node.get(new BigInteger(key.trim()));
+
+			if (res.contains("."))
+				// ip
+				return Util.getResponse(res, new String[][] { { "getd", key } });
+
+			else
+				// key
+				return res;
+		}
+
+		private void putd(String key) {
+			
+			String res = node.put(new BigInteger(key.trim()));
+
+			if (res != null)
+				Util.getResponse(res, new String[][] { { "putd", key } });
+			return;
+			
+		}
+
 		private String join(String key) {
 
 			String res = node.join(key.trim());
+
+			System.out.println("join : " + res + "\n");
+
 			if (res == null)
-				System.out.println("Join before : " + node.ip);
+				return node.ip;
+			else
+				res = Util.getResponse(res, new String[][] { { "join", key } });
 			return res;
 		}
 
 		private String getip(String key) {
-			
-			String gip= node.fingerTable.getNext(Node.toInt(key)).succIP;
-			
-			if(!gip.equals(node.ip))
-				return Util.getResponse(gip,new String[][]{{"getip",key}});
+
+			String gip = node.fingerTable.getNext(Node.BinaryToInt(key)).succIP;
+
+			if (!gip.equals(node.ip))
+				//ip
+				return Util.getResponse(gip,
+						new String[][] { { "getip", key } });
 			return gip;
 		}
-
-		private String get(String key) {
-
-			String res=node.get(key);
-			
-			if(res.contains("."))
-				//ip
-				return Util.getResponse(res, new String[][]{{"get",key}});
-				
-			else
-				//key
-				return res;
-		}
 		
-		private void put(String key) {
-			String res=node.put(key);
-			
-			if(res!=null)
-				Util.getResponse(res,new String[][]{{"put",key}});
-			return;
+
+		private String getipd(String key) {
+
+			String gip = node.fingerTable.getNext(new BigInteger(key)).succIP;
+
+			if (!gip.equals(node.ip))
+				//ip
+				return Util.getResponse(gip,
+						new String[][] { { "getip", key } });
+			return gip;
 		}
 
 		private String dump() {
@@ -138,7 +183,10 @@ public class API {
 		// TODO Auto-generated method stub
 
 		String res = "";
-		res = node.join("127.0.0.2");
+		//res = node.join("127.0.0.2");
+		
+		res=Util.getResponse("127.0.0.1", new String[][]{{"getd","1111"}});
+		
 		System.out.println(res);
 	}
 

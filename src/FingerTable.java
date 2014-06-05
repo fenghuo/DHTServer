@@ -30,11 +30,11 @@ public class FingerTable {
 				sid=Node.getID(sip);
 			table[i] = new Entry(tid, id, sip);
 		}
+		
 	}
 
 	
 	public void Join(BigInteger jid, String jip) {
-		System.out.println(jid);
 		for(int i=0;i<table.length;i++){
 			if(table[i].id.compareTo(jid)<=0){
 				table[i].succ=jid;
